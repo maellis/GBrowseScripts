@@ -29,11 +29,14 @@ for db in $DBS; do
 					mysql -u$user -p$password -e "Use $db; Select chromStart,chromEnd,name from $table into outfile '/tmp/$table.gtf'"
 				fi
 			fi
+			gtf2gff3 $table $table.gtf
 		done
 	fi
+
 done
 
 echo "Enter desired destination directory followed by [ENTER]"
 read directory
 
-sudo mv /tmp/*.gtf "$directory" 
+sudo rm /tmp/*.gtf
+sudo mv /tmp/*.gff3 "$directory" 
