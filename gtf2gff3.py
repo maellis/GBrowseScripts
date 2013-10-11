@@ -1,9 +1,9 @@
-import sys
 #!/usr/bin/python2.7
 # Author: Miandra Ellis
 # Jul 18, 2013
+import sys
 
-file_list = list(sys.argv[3:])
+file_list = list(sys.argv[2:])
 
 for item in file_list:
     input_file = open(item,'r')
@@ -34,7 +34,7 @@ for item in file_list:
             output_file.write('\n')
         else:
             data.insert(0,"chr")
-            data.insert(1,str(sys.argv[3])[:-4])
+            data.insert(1,str(item[:-4]))
             data.insert(2,"exon")
             data.insert(7,".")
             data[-1] = "Name=" + data[-1]
