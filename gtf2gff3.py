@@ -3,7 +3,9 @@
 # Jul 18, 2013
 import sys
 
+organism = sys.argv[1]
 file_list = list(sys.argv[2:])
+
 
 for item in file_list:
     input_file = open(item,'r')
@@ -17,9 +19,8 @@ for item in file_list:
         #split line into columns by tab
         data = line.strip().split('\t')
         if len(data)== 9:
-            # data[1] = data[1].split('_')[-1]
-            data[1] = data[1].strip(sys.argv[1]+"_")
-            if data[1].beginswith('_'):
+            data[1] = data[1].replace(organism,"")
+            if data[1].startswith('_'):
                 data[1]=data[1].strip('_')
 
             transcriptID = data[-1].split('transcript_id')[-1].split(';')[0].strip()[1:-1]
