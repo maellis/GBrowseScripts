@@ -2,6 +2,8 @@
 # Author: Miandra Ellis
 # Script for getting information from UCSC tables to populate gff3 files.
 
+
+# These variables can be hard coded to work for specific mysql databases. 
 echo "Enter mysql database user name followed by [ENTER]:"
 read -s user 
 
@@ -19,12 +21,16 @@ for db in $DBS; do
 		echo Current database is $db
 		mkdir "$directory/$db"
 		for table in $myresult; do
+
+			# Excludes types that I currently don't understand how to display in GBrowse.
 			if [ "${table: -5}" != "pwMaf" ]&&[ "$table" != "extFile" ]&&[ "$table" != "phastCons" ] \
 				&&[ "${table:0:4}" != "mult" ]&&[ "${table: -5}" != "Score" ] ; then
 				description="$(mysql -u$user -p$password -e \
 				"select column_name from information_schema.columns where table_name='$table';" \
 				| grep -v column_name | grep -v -x chrom \
 				| grep -v bin | tr '\n' '\t')"
+				
+				#Separates gtfs where score is include and those where score is not included.
 				if [[ "$description" == *score* ]]; then
 					echo Processing "$table"
 					mysql -u$user -p$password -e "Use $db; Select chromStart,chromEnd,score,strand,name from $table into outfile '/tmp/$table.gtf'"

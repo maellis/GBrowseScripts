@@ -2,21 +2,17 @@
 # Author: Miandra Ellis
 # Script for processing folder of mysql .dump or .sql files into databases.
 
-# echo "Enter mysql database user name followed by [ENTER]:"
-# # read -s user 
-
-# echo "Enter mysql password followed by [ENTER]"
-# # read -s password
 user=root
-password=bunny
+password=CH4GEN
 
-dumpDirectory=/home/miandra/Dropbox/GBrowse/UneditedUCSCFiles
+#Fill in with the path to the directory where the .dump file are.
+dumpDirectory=
 
 files="$(ls "$dumpDirectory")"
 
 for file in $files; do 
 	if [ "${file: -4}" == "dump" ]; then
-		# mysql -u$user -p$password -e "Create database ${file%.*};"
+		#Insert actual server name in place of localhost.
 		mysql -u$user -p$password -h localhost "${file%.*}" <"$file";
 	fi
 done
